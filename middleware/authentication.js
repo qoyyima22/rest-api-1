@@ -1,17 +1,31 @@
-const jwt = require('jsonwebtoken')
-require('dotenv').config()
+const {
+    User
+} = require('../models')
+const tokenHelper = require('../helpers/tokenHelper')
 
 module.exports = function (req, res, next) {
     try {
-        let token = req.header.token
+        let token = req.headers.token
         if (token) {
-            let decoded = jwt.verify(token, process.env.DB_HASH_SECRET)
-            req.authenticatedUser = decoded
+            let decoded = tokenHelper.verifyToken(token)
+            User.findOne({
+                    where: {
+                        id: decoded.id
+                    }
+                })
+                .then(result => {
+                    if (result) {
+                        req.authenticatedUser = result
+                        req.authenticatedUserId = result.id
+                        next()
+                    } else {
+                        throw new Error('silakan login terlebih dahulu!')
+                    }
+                })
         } else {
             throw new Error('silakan login terlebih dahulu!')
         }
     } catch (err) {
         res.status(401).send(`${err}`)
     }
-    next()
 }

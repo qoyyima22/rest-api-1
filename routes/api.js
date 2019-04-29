@@ -1,11 +1,11 @@
 const router = require('express').Router()
-const users = require('../routes/users')
 const Controller = require('../controllers/users')
-
-router.use('/users',users)
+const todo = require('./todo')
 
 router.post('/signup', Controller.signup)
 
 router.post('/signin', Controller.signin)
+
+router.use('/todos', todo)
 
 module.exports = router
