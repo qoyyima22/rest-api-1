@@ -18,4 +18,4 @@ Make sure you have node.js installed on your computer and then run these command
  $ node app.js
 
 access the API via http://localhost:3000/<*--choose from list routes above--*>
-or https://banana-surprise-95013.herokuapp.com/api/users
+or https://secure-sierra-24262.herokuapp.com
